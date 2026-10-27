@@ -119,20 +119,23 @@ const LB={TM:"một giờ (vd: six o’clock)",CN:"tên một nước",CT:"tên 
 const lb=x=>/^[A-Z]+$/.test(x)?"("+(LB[x]||x)+")":x;
 function cls(s){s=norm(s).join(" ");CR.forEach(c=>s=s.replace(c[1],c[2]));s=s.replace(/\b(?:an|the)\b/g,"a").replace(/\b([A-Z]+)((?: and)? \1)+/g,"$1");return s.split(" ").filter(Boolean)}
 function bestS(T,A){let b=null;for(const t of T)for(const a of A){const x=cls(t),y=cls(a),[m,n]=lcs(x,y),r={t,h:a,acc:x.length?m.reduce((p,q)=>p+q,0)/x.length:1,missing:x.filter((_,k)=>!m[k]),extra:y.filter((_,k)=>!n[k])};if(!b||r.acc-r.extra.length*.01>b.acc-b.extra.length*.01)b=r}return b}
+const fr=t=>cls(t).map(x=>/^[A-Z]+$/.test(x)?lb(x):x).join(" "),tk=s=>norm(s).map(x=>/^(an|the)$/.test(x)?"a":x),isC=x=>/^[A-Z]+$/.test(x);
+function mf(tg,hd,s){const M={},m=(i,j)=>{if(i==tg.length)return true;if(j>=hd.length)return false;const k=i+","+j;if(k in M)return M[k];let r=false;if(isC(tg[i])){for(let n=1;n<=5&&j+n<=hd.length&&!r;n++){const c=cls(hd.slice(j,j+n).join(" "));if((c.includes(tg[i])||!c.some(isC))&&m(i+1,j+n))r=true}}else r=hd[j]==tg[i]&&m(i+1,j+1);return M[k]=r};return m(0,s)}
+function bestF(T,A){let b=null;for(const t of T){const tg=cls(t);for(const a of A){const hd=tk(a);let ok=false;for(let s=0;s<=Math.min(2,hd.length)&&!ok;s++)ok=mf(tg,hd,s);const lit=tg.filter(x=>!isC(x)),[m]=lcs(lit,hd),sc=m.reduce((p,q)=>p+q,0)/(lit.length||1),r={t,h:a,acc:ok?1:0,extra:[],missing:ok?[]:[...lit.filter((_,k)=>!m[k]),...(sc==1?tg.filter(isC):[])],fr:fr(t),sc};if(!b||r.acc+r.sc*.5>b.acc+b.sc*.5)b=r}}return b}
 function showS(r){S.last=r.t;let h=`<p>Con đã nói: <i>“${esc(r.h)}”</i></p>`;
 if(pass(r)){h+=`<p class="g">🎉 Rất tốt! Câu trả lời đúng.</p>`+nx();star()}
-else{S.f++;h+=`<p class="r">Chưa đạt. ${r.missing.length?`Còn thiếu hoặc sai: <b>${esc(r.missing.map(lb).join(", "))}</b>.`:""} ${r.extra.length?`Từ thừa hoặc sai: <b>${esc(r.extra.map(lb).join(", "))}</b>.`:""}</p>${tips(r.missing)}<p>Ví dụ một câu đúng: <b>${esc(r.t)}</b> (con có thể thay bằng từ khác cho đúng ý). Nghe mẫu rồi nói lại nhé (lần thử ${S.f}).</p>${sk}<button class="sec" onclick="speak(S.last,.6)">🐢 Nghe mẫu chậm</button>`;if(S.f>=2)setTimeout(()=>speak(S.last,.6),400)}
+else{S.f++;h+=`<p class="r">Chưa đạt. ${r.missing.length?`Còn thiếu hoặc sai: <b>${esc(r.missing.map(lb).join(", "))}</b>.`:""} ${r.extra.length?`Từ thừa hoặc sai: <b>${esc(r.extra.map(lb).join(", "))}</b>.`:""}</p>${tips(r.missing)}<p>Gợi ý cấu trúc: <b>${esc(r.fr)}</b>. Con hãy trả lời theo ý của mình, nghe lại câu hỏi rồi nói lại nhé (lần thử ${S.f}).</p>${sk}<button class="sec" onclick="speak(S.last,.6)">🐢 Nghe mẫu chậm</button>`;if(S.f>=2)setTimeout(()=>speak(S.last,.6),400)}
 $("fb").innerHTML=h}
 // ----- speaking & reading
 function rS(){const u=U[S.u],sp=S.k=="speak",L=sp?u.qa:[...u.w.map(t=>[t]),...sents(u.rd).map(t=>[t])];
 if(S.i>=L.length){done();return}
 const it=L[S.i];S.T=sp?it[1]:[it[0]];S.q=it[0];S.f=0;
-$("main").innerHTML=`<div class="card"><div class="mut">Câu ${S.i+1}/${L.length}</div><p class="ins">${sp?"Nghe câu hỏi rồi trả lời bằng cả câu hoàn chỉnh theo ý của con, miễn là đúng.":"Nghe mẫu rồi đọc to, rõ ràng."}</p><div class="txt">${EM[S.q.toLowerCase()]||""} ${esc(S.q)}</div><button class="big" onclick="speak(S.q)">🔊 Nghe ${sp?"câu hỏi":"mẫu"}</button> ${sp?`<button class="sec" onclick="$('fb').innerHTML='<p>Gợi ý câu trả lời: <b>'+esc(S.T.join(' / '))+'</b></p>'">💡 Gợi ý</button>`:""}<button class="mic" id="mic" onclick="mic()">🎤 Bấm để nói</button><div id="fb"></div></div>`;
+$("main").innerHTML=`<div class="card"><div class="mut">Câu ${S.i+1}/${L.length}</div><p class="ins">${sp?"Nghe câu hỏi rồi trả lời bằng cả câu hoàn chỉnh theo ý của con. Con có thể nói bất kỳ câu nào đúng với câu hỏi.":"Nghe mẫu rồi đọc to, rõ ràng."}</p><div class="txt">${EM[S.q.toLowerCase()]||""} ${esc(S.q)}</div><button class="big" onclick="speak(S.q)">🔊 Nghe ${sp?"câu hỏi":"mẫu"}</button> ${sp?`<button class="sec" onclick="$('fb').innerHTML='<p>Gợi ý cấu trúc: <b>'+esc(fr(S.T[0]))+'</b></p>'">💡 Gợi ý</button>`:""}<button class="mic" id="mic" onclick="mic()">🎤 Bấm để nói</button><div id="fb"></div></div>`;
 if(sp)setTimeout(()=>speak(S.q),250)}
 function mic(){const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
 if(!SR){$("fb").innerHTML=`<p class="r">Trình duyệt chưa hỗ trợ nhận giọng nói. Hãy mở bằng Chrome hoặc Edge.</p>`;return}
 stop();const r=new SR(),b=$("mic");r.lang="en-US";r.maxAlternatives=3;r.interimResults=false;b.classList.add("rec");b.textContent="🔴 Đang nghe… hãy nói";let got=0;
-r.onresult=e=>{got=1;{const A=[...e.results[0]].map(x=>x.transcript);S.k=="speak"?showS(bestS(S.T,A)):show(best(S.T,A))}};
+r.onresult=e=>{got=1;{const A=[...e.results[0]].map(x=>x.transcript);S.k=="speak"?showS(bestF(S.T,A)):show(best(S.T,A))}};
 r.onerror=e=>{got=1;$("fb").innerHTML=`<p class="r">${e.error=="not-allowed"?"Cần cho phép trang web dùng micro.":"Chưa nghe thấy giọng con. Hãy nói to và rõ hơn nhé."}</p>`};
 r.onend=()=>{b.classList.remove("rec");b.textContent="🎤 Bấm để nói";if(!got)$("fb").innerHTML=`<p class="r">Chưa nghe thấy giọng con. Hãy thử lại nhé.</p>`};
 try{r.start()}catch(e){}}
