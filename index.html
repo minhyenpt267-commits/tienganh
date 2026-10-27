@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="vi"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Global Success 4 – Nghe Nói Đọc Viết</title>
+<style>
+:root{--bg:#eef6fb;--fg:#17324a;--card:#fff;--pri:#1976d2;--ok:#1b8a3a;--bad:#d32f2f;--mut:#667;--bd:#cfe0ee;--okbg:#e3f6e8;--badbg:#fde8e8;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1b26;--fg:#e6eef5;--card:#1a2a38;--pri:#64b5f6;--ok:#6fdc8c;--bad:#ff8a80;--mut:#9ab;--bd:#2d4457;--okbg:#17372388;--badbg:#4a1f1f88;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f1b26;--fg:#e6eef5;--card:#1a2a38;--pri:#64b5f6;--ok:#6fdc8c;--bad:#ff8a80;--mut:#9ab;--bd:#2d4457;--okbg:#17372388;--badbg:#4a1f1f88;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.w{max-width:760px;margin:0 auto;padding:12px}
+h1{font-size:20px;margin:4px 0 10px}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0}
+select{font:inherit;padding:8px;border-radius:10px;border:1px solid var(--bd);background:var(--card);color:var(--fg);max-width:100%}
+button{font:inherit;cursor:pointer;border:1px solid var(--bd);background:var(--card);color:var(--fg);padding:9px 14px;border-radius:12px}
+button.on{background:var(--pri);color:#fff;border-color:var(--pri)}
+button.big{background:var(--pri);color:#fff;font-size:18px;padding:12px 20px}
+button.pri{background:var(--ok);color:#fff;border:0;font-size:17px;padding:11px 18px;margin-top:8px}
+button.sec{margin:6px 0}
+button.mic{display:block;margin:14px auto 6px;font-size:20px;padding:16px 28px;background:#ef6c00;color:#fff;border:0;border-radius:40px}
+button.mic.rec{background:var(--bad);animation:p 1s infinite}
+@keyframes p{50%{opacity:.6}}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:16px;margin-top:10px}
+.ins{color:var(--mut);margin:0 0 8px}
+.txt{font-size:26px;font-weight:700;margin:8px 0 12px}
+.opt{display:block;width:100%;text-align:left;margin:8px 0;font-size:18px}
+.opt.ok{background:var(--okbg);border-color:var(--ok)}.opt.bad{background:var(--badbg);border-color:var(--bad);opacity:.7}
+.g{color:var(--ok)}.r{color:var(--bad)}.u{text-decoration:underline wavy}.mut{color:var(--mut);font-size:14px}
+.words{font-size:24px;font-weight:700;margin:10px 0}
+input[type=text]{width:100%;box-sizing:border-box;font:inherit;font-size:20px;padding:10px;border-radius:10px;border:1px solid var(--bd);background:var(--bg);color:var(--fg);margin:8px 0}
+.tip{background:var(--badbg);border-radius:10px;padding:8px 12px;margin:6px 0;font-size:15px}
+*{-webkit-tap-highlight-color:transparent}button{min-height:44px;touch-action:manipulation}.w{padding-bottom:40px}
+.chip{font-size:20px;min-height:48px;margin:4px;padding:8px 14px;border-radius:12px}.chip.sel{background:var(--pri);color:#fff;border-color:var(--pri)}.chip:disabled{opacity:.3}.slot{min-height:64px;border:2px dashed var(--bd);border-radius:12px;padding:6px;margin:8px 0}.bank{margin:8px 0}
+@media(max-width:520px){.w{padding:10px}h1{font-size:17px}.txt{font-size:22px}.words{font-size:21px}.opt{font-size:17px}button.big{width:100%}button.mic{width:100%;padding:18px}select{width:100%}#tb{display:grid;grid-template-columns:1fr 1fr}#tb button{width:100%}#sp button{flex:1;padding:9px 6px}}
+</style></head><body><div class="w">
+<h1>🎧 Tiếng Anh 4 – Global Success · Nghe · Nói · Đọc · Viết</h1>
+<div class="row"><select id="us" onchange="S.u=+this.value;S.i=0;stop();tabs();go()"></select></div>
+<div class="row" id="sp"></div>
+<div class="row" id="tb"></div>
+<div id="main"></div>
+<p class="mut">Mẹo: trên máy tính dùng Chrome hoặc Edge; Android dùng Chrome; iPhone dùng Safari (bật Đọc chính tả trong Cài đặt). Luôn cho phép micro. Giọng đọc mẫu lấy từ thiết bị.</p>
+</div>
+<script>
+const U=[
+{t:"Unit 1 – My friends",w:["America","Australia","Britain","Japan","Malaysia","Singapore","Thailand","Viet Nam"],qa:[["Where are you from?",["I’m from Viet Nam.","I’m from America.","I’m from Australia.","I’m from Britain."]],["Where’s he from?",["He’s from Singapore.","He’s from Malaysia."]],["Where’s she from?",["She’s from Japan.","She’s from Thailand."]]],rd:"Hello. I am Minh. I am nine years old. I am from Viet Nam. I have two new friends, Tony and Laura. Tony is from America. Laura is from Australia. They are friendly."},
+{t:"Unit 2 – Time and daily routines",w:["get up","have breakfast","go to school","go to bed","o’clock","fifteen","thirty","forty-five"],qa:[["What time is it?",["It’s six o’clock.","It’s six fifteen.","It’s six thirty.","It’s six forty-five."]],["What time do you get up?",["I get up at six o’clock."]],["What time do you have breakfast?",["I have breakfast at six fifteen."]],["What time do you go to school?",["I go to school at seven o’clock."]],["What time do you go to bed?",["I go to bed at nine forty-five."]]],rd:"I am a pupil at Hoa Lan Primary School. I get up at six o’clock. I have breakfast at six fifteen. I go to school at seven o’clock. I have dinner at home at seven thirty. I go to bed at nine forty-five."},
+{t:"Unit 3 – My week",w:["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday","do housework","listen to music","study at school"],qa:[["What day is it today?",["It’s Monday.","It’s Tuesday.","It’s Wednesday.","It’s Thursday.","It’s Friday."]],["What do you do on Mondays?",["I study at school."]],["What do you do on Saturdays?",["I do housework."]],["What do you do on Sundays?",["I listen to music."]]],rd:"I am Nam. It is Monday today. It is a school day. I go to school on Mondays, Tuesdays, Wednesdays, Thursdays and Fridays. At the weekend, I stay at home. I do housework on Saturdays. I watch TV on Sundays."},
+{t:"Unit 4 – My birthday party",w:["January","February","March","April","chips","grapes","jam","juice","lemonade","water","birthday","party"],qa:[["When’s your birthday?",["It’s in January.","It’s in February.","It’s in March.","It’s in April."]],["What do you want to eat?",["I want some chips.","I want some grapes.","I want some jam."]],["What do you want to drink?",["I want some juice.","I want some lemonade.","I want some water."]]],rd:"My name’s Bill. I’m from Britain. I’m nine years old. My birthday’s in March. It’s coming soon. I want some chips and some lemonade at my party."},
+{t:"Unit 5 – Things we can do",w:["can","cook","draw","play the guitar","play the piano","ride a bike","ride a horse","roller skate","swim"],qa:[["Can you ride a bike?",["Yes, I can.","No, I can’t."]],["Can you play the piano?",["Yes, I can.","No, I can’t."]],["Can he swim?",["Yes, he can.","No, he can’t."]],["Can she play football?",["No, she can’t, but she can swim.","Yes, she can."]]],rd:"I have three friends, Ha, Khoa and Rosie. Ha can play badminton, but she can’t swim. Khoa can ride a bike, but he can’t ride a horse. Rosie can play the piano, but she can’t play the guitar. I can sing, but I can’t dance. We can all roller skate."},
+{t:"Unit 6 – Our school facilities",w:["city","mountains","town","village","building","computer room","garden","playground"],qa:[["Where’s your school?",["It’s in the city.","It’s in the mountains.","It’s in the town.","It’s in the village."]],["How many buildings are there at your school?",["There are three."]],["How many gardens are there at your school?",["There is one."]],["How many computer rooms are there at your school?",["There are two."]]],rd:"Our school is big. It is in the village. There are three buildings and a garden at our school. The garden has many trees and flowers. There is a big playground. We can play football, badminton and volleyball there."},
+{t:"Unit 7 – Our timetables",w:["art","English","history and geography","maths","music","science","Vietnamese"],qa:[["What subjects do you have today?",["I have English and maths.","I have Vietnamese and science."]],["When do you have maths?",["I have it on Mondays and Fridays."]],["When do you have music?",["I have it on Tuesdays."]]],rd:"My name is Minh. I go to school from Mondays to Fridays. I have Vietnamese and maths every school day. I have English on Mondays, Thursdays and Fridays. I have science on Wednesdays and Thursdays. I have music on Tuesdays. I like music very much."},
+{t:"Unit 8 – My favourite subjects",w:["art","music","PE","IT","English teacher","painter","maths teacher","because","why"],qa:[["What’s your favourite subject?",["It’s English.","It’s art.","It’s music.","It’s PE.","It’s IT."]],["Why do you like English?",["Because I want to be an English teacher."]],["Why do you like art?",["Because I want to be a painter."]]],rd:"My name is Peter. It is Thursday today. I have English, PE, music, art and maths at school. My favourite subject is English. I like it because I want to be an English teacher. I also like music because I want to be a singer too."},
+{t:"Unit 9 – Our sports day",w:["May","June","July","August","September","October","November","December","sports day"],qa:[["Is your sports day in May?",["Yes, it is.","No, it isn’t. It’s in April."]],["When’s your sports day?",["It’s in October.","It’s in November.","It’s in December."]]],rd:"Our sports day is in November. It is in the school playground. There are many pupils and teachers. We play different sports and games. The boys play badminton. The girls play football. The teachers play basketball. It is a lot of fun!"},
+{t:"Unit 10 – Our summer holidays",w:["beach","campsite","countryside","Bangkok","London","Sydney","Tokyo","last weekend","yesterday"],qa:[["Were you in the countryside last weekend?",["Yes, I was.","No, I wasn’t. I was in the mountains."]],["Where were you last summer?",["I was in Tokyo.","I was in London.","I was in Sydney.","I was in Bangkok."]]],rd:"I am Mai. Last summer, I was on holiday in London. The city was busy. The food was good. The people were helpful. My holiday was great!"},
+{t:"Unit 11 – My home",w:["road","street","big","busy","live","noisy","quiet"],qa:[["Where do you live?",["I live in Le Lai Street.","I live in Nguyen Hue Road."]],["What’s the street like?",["It’s busy.","It’s quiet.","It’s noisy."]],["What’s the village like?",["It’s quiet and beautiful."]]],rd:"I live in a small flat with my parents. It is in Le Lai Street. The street is very busy. At the weekend, I visit my grandparents. They live in a big house with a beautiful garden in a village. The village is quiet and beautiful."},
+{t:"Unit 12 – Jobs",w:["actor","farmer","nurse","office worker","policeman","factory","farm","hospital","nursing home"],qa:[["What does he do?",["He’s a farmer.","He’s an actor.","He’s a policeman."]],["What does she do?",["She’s a nurse.","She’s an office worker."]],["Where does he work?",["He works on a farm.","He works at a factory."]],["Where does she work?",["She works at a hospital.","She works at a nursing home."]]],rd:"Look at the photo of my family. This is my mother. She is a nurse. She works at a nursing home. This is my father. He is a worker. He works at a factory. This is me. I am a pupil. I study at a primary school."},
+{t:"Unit 13 – Appearance",w:["big","short","slim","tall","eyes","face","hair","long","round"],qa:[["What does he look like?",["He’s tall.","He’s short.","He’s big."]],["What does she look like?",["She’s slim.","She’s tall and slim."]],["What does your sister look like?",["She has long hair.","She has a round face."]]],rd:"I have a big family: my grandfather, my grandmother, my father, my mother, my sister and me. My grandfather is big. My grandmother is big, too. My father is very tall. My mother is slim. She has long hair. My sister has a round face and big eyes."},
+{t:"Unit 14 – Daily activities",w:["at noon","in the morning","in the afternoon","in the evening","clean the floor","help with the cooking","wash the clothes","wash the dishes"],qa:[["When do you watch TV?",["I watch TV in the evening.","I watch TV at noon."]],["What do you do in the morning?",["I wash the clothes.","I clean the floor."]],["What do you do in the afternoon?",["I help with the cooking."]],["What do you do in the evening?",["I wash the dishes."]]],rd:"It is Sunday today. We are at home. I do housework with my parents on Sundays. In the morning, I wash the clothes. In the afternoon, I help my mum with the cooking and clean the floor. In the evening, my dad and I wash the dishes."},
+{t:"Unit 15 – My family’s weekends",w:["cinema","shopping centre","sports centre","swimming pool","cook meals","do yoga","play tennis","watch films"],qa:[["Where does he go on Saturdays?",["He goes to the cinema.","He goes to the sports centre."]],["Where does she go on Saturdays?",["She goes to the shopping centre.","She goes to the swimming pool."]],["What does he do on Sundays?",["He plays tennis.","He watches films."]],["What does she do on Sundays?",["She cooks meals.","She does yoga."]]],rd:"Today is Sunday. Ben and his family do a lot of things on Sundays. His father goes to the sports centre. He plays tennis. His mother goes to the shopping centre. His sister goes to the cinema. Ben stays at home. He watches TV. In the evening, they have a nice meal together."},
+{t:"Unit 16 – Weather",w:["cloudy","rainy","sunny","windy","weather","bakery","bookshop","food stall","water park"],qa:[["What was the weather like last weekend?",["It was sunny.","It was rainy.","It was cloudy.","It was windy."]],["Do you want to go to the bookshop?",["Great! Let’s go.","Sorry, I can’t."]],["Do you want to go to the water park?",["Great! Let’s go.","Sorry, I can’t."]]],rd:"It was rainy yesterday. We were at home. It is sunny today. We are at the shopping centre. Kate is at the bookshop. She wants some books. Jim is at the food stall. He wants some chicken. I am at the bakery. I want some bread. We have a happy shopping day."},
+{t:"Unit 17 – In the city",w:["get","go straight","left","right","stop","turn","turn left","turn right","turn round"],qa:[["What does it say?",["It says stop.","It says turn left.","It says turn right.","It says go straight."]],["How can I get to the bookshop?",["Go straight and turn left.","Turn right.","Turn left."]]],rd:"Mai wants to buy some bread. The bakery is in Nguyen Hue Street. How can she get there? She can go straight and turn right. The bakery is on the right. Bill wants to buy some books. The bookshop is in Green Street. How can he get there? He can go straight and turn left. The bookshop is on the left."},
+{t:"Unit 18 – At the shopping centre",w:["behind","between","near","opposite","gift shop","skirt","T-shirt","dong","thousand"],qa:[["Where’s the bookshop?",["It’s opposite the gift shop.","It’s near the bakery.","It’s behind the shoe shop."]],["How much is the skirt?",["It’s fifty thousand dong."]],["How much is the T-shirt?",["It’s eighty thousand dong."]]],rd:"We are at the shopping centre. We can see many shops. The bookshop is opposite the shoe shop. The toy shop is behind the shoe shop. The bakery is between the bookshop and the gift shop. Mai wants to buy a book. It is thirty thousand dong. Linh wants to buy a doll. It is fifty thousand dong. I want to buy an ice cream. It is ten thousand dong."},
+{t:"Unit 19 – The animal world",w:["crocodiles","giraffes","hippos","lions","dance beautifully","roar loudly","run quickly","sing merrily"],qa:[["What are these animals?",["They’re crocodiles.","They’re giraffes.","They’re hippos.","They’re lions."]],["Why do you like lions?",["Because they roar loudly."]],["Why do you like giraffes?",["Because they run quickly."]],["Why do you like birds?",["Because they sing merrily."]]],rd:"It is a nice day today. Ben and his friends are at the zoo because they want to see the animals. They like giraffes because they have long necks and legs. Giraffes can run very quickly. His friends like birds because they sing merrily. Ben loves peacocks because they dance beautifully."},
+{t:"Unit 20 – At summer camp",w:["building a campfire","dancing around the campfire","playing card games","playing tug of war","putting up a tent","singing songs","taking a photo","telling a story"],qa:[["What’s he doing?",["He’s telling a story.","He’s taking a photo.","He’s putting up a tent."]],["What’s she doing?",["She’s building a campfire.","She’s singing songs."]],["What are they doing?",["They’re playing card games.","They’re playing tug of war.","They’re dancing around the campfire."]]],rd:"My name is Minh. Today is Sunday. My friends and I are at the campsite. Mai is telling a story. Ben and Bill are playing card games. Mary and Lucy are singing songs and dancing around the campfire. Some other friends are playing tug of war. I am taking a photo. We are having a lot of fun."}
+];
+const TIPS={thirty:"Âm “th”: đặt đầu lưỡi giữa hai hàm răng rồi thổi nhẹ, đừng đọc thành “t” hay “s”.",thursday:"Âm “th” đầu từ: lưỡi giữa răng. Cả từ đọc như “THƠ-dì”.",three:"Âm “th”: lưỡi giữa răng, thổi hơi, không đọc “t”.",maths:"Cuối từ là âm “th” + s: lưỡi giữa răng rồi bật “s”.",february:"Đọc “FEB-ru-ơ-ri”, đừng bỏ âm “r”.",science:"Đọc “SAI-ờns”: chữ “c” không đọc là /k/.",vietnamese:"Nhấn âm cuối: “viét-na-MÍZ”, kết thúc bằng âm /z/.",were:"“were” đọc /wɜː/, giữ môi tròn rồi kéo dài.",where:"“where” đọc /weə/, khác với “were”.",july:"Nhấn âm cuối: “ju-LAI”.",australia:"Đọc “o-STRÂY-li-a”, nhấn âm thứ hai.",america:"Đọc “ờ-ME-ri-kờ”, nhấn âm thứ hai.",wednesday:"Đọc “UÊNZ-đây”, chữ “d” đầu không đọc.",mountains:"Nhớ âm cuối “z” của số nhiều.",villages:"Số nhiều đọc “-ịz”, đừng bỏ âm cuối.","o’clock":"Đọc “ờ-KLOK”."};
+const $=id=>document.getElementById(id),esc=s=>String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+const pick=a=>a[Math.floor(Math.random()*a.length)],sh=a=>[...a].sort(()=>Math.random()-.5);
+const sents=t=>t.split(/(?<=[.?!])\s+/);
+const pool=u=>[...new Set([...u.qa.flatMap(q=>[q[0],...q[1]]),...sents(u.rd)])];
+const ON="zero one two three four five six seven eight nine ten eleven twelve thirteen fourteen fifteen sixteen seventeen eighteen nineteen".split(" "),TY=["","","twenty","thirty","forty","fifty"];
+const N=n=>n<20?ON[n]:TY[Math.floor(n/10)]+(n%10?" "+ON[n%10]:"");
+function norm(s){s=s.toLowerCase().replace(/[’‘`]/g,"'");
+s=s.replace(/(\d+):(\d+)/g,(m,h,mi)=>N(+h)+" "+(+mi==0?"oclock":N(+mi))).replace(/\d+/g,m=>N(Math.min(+m,59)));
+s=s.replace(/viet\s?nam/g,"viet nam").replace(/\bp\.?\s?e\.?(?=\s|$)/g,"pe");
+s=s.replace(/can't|cannot/g,"can not").replace(/won't/g,"will not").replace(/n't\b/g," not").replace(/'m\b/g," am").replace(/'re\b/g," are").replace(/'s\b/g," is").replace(/o'clock|o clock/g,"oclock").replace(/-/g," ").replace(/[^a-z ]/g," ");
+return s.split(/\s+/).filter(Boolean)}
+function lcs(a,b){const n=a.length,m=b.length,d=Array.from({length:n+1},()=>Array(m+1).fill(0));
+for(let i=n-1;i>=0;i--)for(let j=m-1;j>=0;j--)d[i][j]=a[i]==b[j]?d[i+1][j+1]+1:Math.max(d[i+1][j],d[i][j+1]);
+const ma=Array(n).fill(0),mb=Array(m).fill(0);let i=0,j=0;
+while(i<n&&j<m){if(a[i]==b[j]){ma[i]=mb[j]=1;i++;j++}else if(d[i+1][j]>=d[i][j+1])i++;else j++}
+return[ma,mb]}
+function evalOne(t,h){const raw=t.split(/\s+/),tk=[],mp=[];raw.forEach((w,r)=>norm(w).forEach(x=>{tk.push(x);mp.push(r)}));
+const hb=norm(h),[ma,mb]=lcs(tk,hb),ok=raw.map(()=>true);tk.forEach((x,k)=>{if(!ma[k])ok[mp[k]]=false});
+const mt=ma.reduce((a,b)=>a+b,0);
+return{raw,ok,acc:tk.length?mt/tk.length:1,extra:hb.filter((_,k)=>!mb[k]),heard:h,wrong:raw.filter((_,r)=>!ok[r]).map(w=>w.replace(/[.,?!]/g,""))}}
+function best(T,A){let b=null;for(const t of T)for(const a of A){const r=evalOne(t,a);if(!b||r.acc-r.extra.length*.01>b.acc-b.extra.length*.01)b=r}return b}
+const pass=r=>r.acc>=.9&&r.extra.length<=1;
+const mk=(t,ids)=>({t,w:ids.flatMap(i=>U[i].w.slice(0,3)),qa:ids.flatMap(i=>U[i].qa.slice(0,2)),rd:ids.map(i=>sents(U[i].rd).slice(0,2).join(" ")).join(" ")});
+const R=[mk("Review 1 – Units 1–5",[0,1,2,3,4]),mk("Review 2 – Units 6–10",[5,6,7,8,9]),mk("Review 3 – Units 11–15",[10,11,12,13,14]),mk("Review 4 – Units 16–20",[15,16,17,18,19])];
+U.splice(20,0,R[3]);U.splice(15,0,R[2]);U.splice(10,0,R[1]);U.splice(5,0,R[0]);
+U.unshift({t:"Starter – Hello again!",w:["come in","sit down","open your books","read aloud","stand up","say goodbye"],qa:[["How are you?",["I’m fine, thank you."]],["What are they doing?",["They’re swimming."]]],rd:"Hello, hello. How are you? I’m fine, thank you. This is Mary. This is Mai. Nice to see you."});
+const EM={america:"🇺🇸",australia:"🇦🇺",britain:"🇬🇧",japan:"🇯🇵",malaysia:"🇲🇾",singapore:"🇸🇬",thailand:"🇹🇭","viet nam":"🇻🇳","get up":"⏰","have breakfast":"🥣","go to school":"🎒","go to bed":"🛏️",chips:"🍟",grapes:"🍇",jam:"🍓",juice:"🧃",lemonade:"🍋",water:"💧",party:"🎉",birthday:"🎂",cook:"🍳",draw:"🎨","play the guitar":"🎸","play the piano":"🎹","ride a bike":"🚲","ride a horse":"🐴","roller skate":"🛼",swim:"🏊",city:"🏙️",mountains:"⛰️",village:"🏘️",garden:"🌳",playground:"🛝","computer room":"💻",building:"🏫",art:"🎨",music:"🎵",pe:"🏃",it:"🖥️",science:"🔬",maths:"➕",beach:"🏖️",campsite:"⛺",countryside:"🌾",farmer:"🧑‍🌾",nurse:"🧑‍⚕️",factory:"🏭",farm:"🚜",hospital:"🏥",policeman:"👮",actor:"🎭",tall:"📏",short:"🧍",eyes:"👀",hair:"💇",cinema:"🎬","swimming pool":"🏊","do yoga":"🧘","play tennis":"🎾","watch films":"🍿","wash the dishes":"🍽️","wash the clothes":"👕","clean the floor":"🧹",cloudy:"☁️",rainy:"🌧️",sunny:"☀️",windy:"🌬️",bakery:"🥖",bookshop:"📚","water park":"🌊","food stall":"🍜","turn left":"⬅️","turn right":"➡️","go straight":"⬆️",stop:"🛑",crocodiles:"🐊",giraffes:"🦒",hippos:"🦛",lions:"🦁","taking a photo":"📷","building a campfire":"🔥","putting up a tent":"⛺","playing card games":"🃏","singing songs":"🎤","telling a story":"📖","come in":"🚪","sit down":"🪑","open your books":"📖","stand up":"🧍"};
+// ----- state
+let S={u:0,k:"listen",i:0,f:0,sp:.8,P:{}};
+try{S.P=JSON.parse(localStorage.getItem("gs4")||"{}")}catch(e){}
+function star(){const k=S.u+S.k;S.P[k]=(S.P[k]||0)+1;try{localStorage.setItem("gs4",JSON.stringify(S.P))}catch(e){}tabs()}
+let V=null;function pv(){const v=speechSynthesis.getVoices();V=v.find(x=>/en-US/i.test(x.lang))||v.find(x=>/^en/i.test(x.lang))||null}
+if("speechSynthesis" in window){pv();speechSynthesis.onvoiceschanged=pv}
+function stop(){try{speechSynthesis.cancel()}catch(e){}}
+function speak(t,r){stop();const u=new SpeechSynthesisUtterance(t);u.lang="en-US";u.rate=r||S.sp;if(V)u.voice=V;speechSynthesis.speak(u)}
+function spd(){$("sp").innerHTML="<b>Tốc độ:</b> "+[["🐢 Chậm",.6],["🚶 Vừa",.8],["🐇 Chuẩn",1]].map(x=>`<button class="${S.sp==x[1]?"on":""}" onclick="S.sp=${x[1]};spd();speak('Listen carefully.')">${x[0]}</button>`).join("")}
+function tabs(){$("tb").innerHTML=[["listen","👂 Nghe"],["speak","🗣️ Nói"],["read","📖 Đọc"],["write","✍️ Viết"]].map(x=>`<button class="${S.k==x[0]?"on":""}" onclick="S.k='${x[0]}';S.i=0;stop();tabs();go()">${x[1]} ⭐${S.P[S.u+x[0]]||0}</button>`).join("")}
+function go(){S.k=="listen"?rL():S.k=="write"?rW():rS()}
+function done(){$("main").innerHTML=`<div class="card"><div class="txt">🏆 Hoàn thành!</div><p>Con đã hoàn thành phần này của ${esc(U[S.u].t)}. Giỏi lắm!</p><button class="pri" onclick="S.i=0;go()">Luyện lại</button> <button class="sec" onclick="if(S.u<U.length-1){S.u++;$('us').value=S.u}S.i=0;tabs();go()">Unit tiếp theo ➜</button></div>`}
+const nx=()=>`<br><button class="pri" onclick="S.i++;go()">Câu tiếp ➜</button>`;
+const tips=w=>w.map(x=>TIPS[x.toLowerCase()]?`<div class="tip"><b>${esc(x)}</b>: ${TIPS[x.toLowerCase()]}</div>`:"").join("");
+// ----- listening
+function rL(){const u=U[S.u],w=Math.random()<.4,src=w?u.w:pool(u),a=pick(src);S.a=a;S.o=sh([a,...sh(src.filter(x=>x!=a)).slice(0,2)]);
+$("main").innerHTML=`<div class="card"><p class="ins">Nghe và chọn ${w?"từ":"câu"} đúng. Chọn sai thì nghe lại và chọn tiếp cho đến khi đúng.</p><button class="big" onclick="speak(S.a)">🔊 Nghe</button><div>${S.o.map((x,i)=>`<button class="opt" onclick="pk(${i})">${esc(x)}</button>`).join("")}</div><div id="fb"></div></div>`;setTimeout(()=>speak(a),250)}
+function pk(i){const bs=document.querySelectorAll(".opt"),b=bs[i];
+if(S.o[i]==S.a){b.classList.add("ok");bs.forEach(x=>x.disabled=1);$("fb").innerHTML=`<p class="g">🎉 Chính xác! Giỏi lắm.</p><button class="pri" onclick="rL()">Câu tiếp ➜</button>`;star()}
+else{b.classList.add("bad");b.disabled=1;const r=evalOne(S.a,S.o[i]);$("fb").innerHTML=`<p class="r">Chưa đúng. Phần khác nhau nằm ở: <b>${esc(r.wrong.join(", ")||"thứ tự từ")}</b>. Con nghe lại thật kỹ rồi chọn lại nhé.</p>`;speak(S.a)}}
+// ----- speaking & reading
+function rS(){const u=U[S.u],sp=S.k=="speak",L=sp?u.qa:[...u.w.map(t=>[t]),...sents(u.rd).map(t=>[t])];
+if(S.i>=L.length){done();return}
+const it=L[S.i];S.T=sp?it[1]:[it[0]];S.q=it[0];S.f=0;
+$("main").innerHTML=`<div class="card"><div class="mut">Câu ${S.i+1}/${L.length}</div><p class="ins">${sp?"Nghe câu hỏi rồi trả lời bằng cả câu hoàn chỉnh.":"Nghe mẫu rồi đọc to, rõ ràng."}</p><div class="txt">${EM[S.q.toLowerCase()]||""} ${esc(S.q)}</div><button class="big" onclick="speak(S.q)">🔊 Nghe ${sp?"câu hỏi":"mẫu"}</button> ${sp?`<button class="sec" onclick="$('fb').innerHTML='<p>Gợi ý câu trả lời: <b>'+esc(S.T.join(' / '))+'</b></p>'">💡 Gợi ý</button>`:""}<button class="mic" id="mic" onclick="mic()">🎤 Bấm để nói</button><div id="fb"></div></div>`;
+if(sp)setTimeout(()=>speak(S.q),250)}
+function mic(){const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+if(!SR){$("fb").innerHTML=`<p class="r">Trình duyệt chưa hỗ trợ nhận giọng nói. Hãy mở bằng Chrome hoặc Edge.</p>`;return}
+stop();const r=new SR(),b=$("mic");r.lang="en-US";r.maxAlternatives=3;r.interimResults=false;b.classList.add("rec");b.textContent="🔴 Đang nghe… hãy nói";let got=0;
+r.onresult=e=>{got=1;show(best(S.T,[...e.results[0]].map(x=>x.transcript)))};
+r.onerror=e=>{got=1;$("fb").innerHTML=`<p class="r">${e.error=="not-allowed"?"Cần cho phép trang web dùng micro.":"Chưa nghe thấy giọng con. Hãy nói to và rõ hơn nhé."}</p>`};
+r.onend=()=>{b.classList.remove("rec");b.textContent="🎤 Bấm để nói";if(!got)$("fb").innerHTML=`<p class="r">Chưa nghe thấy giọng con. Hãy thử lại nhé.</p>`};
+try{r.start()}catch(e){}}
+function show(r){S.last=r.raw.join(" ");const ok=pass(r);
+let h=`<div class="words">${r.raw.map((w,i)=>`<span class="${r.ok[i]?"g":"r u"}">${esc(w)}</span>`).join(" ")}</div><p>Con đã nói: <i>“${esc(r.heard)}”</i> · Chính xác: <b>${Math.round(r.acc*100)}%</b></p>`;
+if(ok){h+=`<p class="g">🎉 Rất tốt! Con đọc đúng rồi.</p>`+nx();star()}
+else{S.f++;h+=`<p class="r">Chưa đạt. ${r.wrong.length?`Từ cần sửa: <b>${esc(r.wrong.join(", "))}</b>.`:""} ${r.extra.length?`Từ thừa hoặc sai: <b>${esc(r.extra.join(", "))}</b>.`:""}</p>${tips(r.wrong)}<p>Con nghe mẫu, đọc theo thật chậm rồi bấm 🎤 nói lại (lần thử ${S.f}).</p><button class="sec" onclick="speak(S.last,.6)">🐢 Nghe mẫu chậm</button>`;if(S.f>=2)setTimeout(()=>speak(S.last,.6),400)}
+$("fb").innerHTML=h}
+// ----- writing
+function rW(){const L=pool(U[S.u]);if(S.i>=L.length){done();return}
+const s=L[S.i],bl=S.i%3==1;S.s=s;S.bl=bl;S.f=0;if(S.i%3==2&&s.split(/\s+/).length>=3){rO();return}if(bl)S.b=s.replace(/[.?!,]/g,"").split(" ").reduce((a,x)=>x.length>a.length?x:a);
+$("main").innerHTML=`<div class="card"><div class="mut">Câu ${S.i+1}/${L.length}</div><p class="ins">${bl?"Nghe và điền từ còn thiếu.":"Nghe và viết lại cả câu (viết hoa chữ đầu câu, thêm dấu câu)."}</p>${bl?`<div class="txt">${esc(s.replace(S.b,"_____"))}</div>`:""}<button class="big" onclick="speak(S.s)">🔊 Nghe</button><input type="text" id="in" autocomplete="off" autocapitalize="off" spellcheck="false" onkeydown="if(event.key=='Enter')ck()"><button class="pri" onclick="ck()">Kiểm tra</button><div id="fb"></div></div>`;setTimeout(()=>speak(s),250)}
+function ck(){const v=$("in").value.trim();if(!v)return;let h="",ok;
+if(S.bl){const a=v.toLowerCase().replace(/’/g,"'"),b=S.b.toLowerCase().replace(/’/g,"'");ok=a==b;
+if(!ok)h=`<p class="r">Chưa đúng. Kiểm tra chính tả từng chữ cái: ${[...b].map((c,i)=>`<b class="${a[i]==c?"g":"r"}">${a[i]==c?esc(c):"_"}</b>`).join(" ")} (từ có ${b.length} chữ cái). Nghe lại rồi viết lại nhé.</p>`}
+else{const r=evalOne(S.s,v),nt=[];
+if(S.s[0]!=S.s[0].toLowerCase()&&v[0]!=v[0].toUpperCase())nt.push("Chữ cái đầu câu phải viết hoa.");
+const pe=S.s.slice(-1);if(/[.?!]/.test(pe)&&v.slice(-1)!=pe)nt.push(`Cuối câu cần dấu “${pe}”.`);
+ok=r.acc==1&&!r.extra.length&&!nt.length;
+if(!ok)h=`<div class="words">${r.raw.map((w,i)=>r.ok[i]?`<span class="g">${esc(w)}</span>`:`<span class="r">${"_".repeat(w.replace(/[.,?!]/g,"").length)}</span>`).join(" ")}</div><p class="r">Chưa đúng. ${r.wrong.length?`Con viết sai hoặc thiếu ${r.wrong.length} từ (các chỗ gạch dưới). `:""}${r.extra.length?`Có từ thừa: <b>${esc(r.extra.join(", "))}</b>. `:""}${nt.join(" ")}</p><p>Nghe lại thật chậm rồi sửa nhé.</p><button class="sec" onclick="speak(S.s,.6)">🐢 Nghe chậm</button>`}
+if(ok){h=`<p class="g">🎉 Chính xác: <b>${esc(S.s)}</b></p>`+nx();star()}else S.f++;
+$("fb").innerHTML=h}
+function rO(){const w=S.s.split(/\s+/),id=w.map((x,i)=>i);let o;do{o=sh(id)}while(o.join()==id.join());S.W=w;S.bank=o;S.pl=[];S.f=0;drO()}
+function drO(){const w=S.W,us=new Set(S.pl);$("main").innerHTML=`<div class="card"><div class="mut">Câu ${S.i+1}/${pool(U[S.u]).length}</div><p class="ins">Sắp xếp lại các từ thành câu đúng: chạm vào từng từ theo thứ tự. Chạm vào từ đã chọn để bỏ ra.</p><div class="slot">${S.pl.map(i=>`<button class="chip sel" onclick="rm(${i})">${esc(w[i])}</button>`).join("")||"<span class=mut>Câu của con sẽ hiện ở đây…</span>"}</div><div class="bank">${S.bank.map(i=>`<button class="chip" ${us.has(i)?"disabled":""} onclick="ad(${i})">${esc(w[i])}</button>`).join("")}</div><div class="row"><button onclick="speak(S.s)">🔊 Nghe gợi ý</button><button onclick="S.pl=[];drO()">↺ Làm lại</button></div><button class="pri" onclick="ckO()">Kiểm tra</button><div id="fb"></div></div>`}
+function ad(i){S.pl.push(i);drO()}
+function rm(i){S.pl=S.pl.filter(x=>x!=i);drO()}
+function ckO(){const w=S.W;let h;if(S.pl.length<w.length){drO();$("fb").innerHTML=`<p class="r">Con chưa dùng hết các từ. Hãy chọn đủ ${w.length} từ nhé.</p>`;return}
+const ok=S.pl.map((i,k)=>w[i].toLowerCase()==w[k].toLowerCase()),all=ok.every(x=>x);
+const sp=`<div class="words">${S.pl.map((i,k)=>`<span class="${ok[k]?"g":"r u"}">${esc(w[i])}</span>`).join(" ")}</div>`;
+if(all){h=sp+`<p class="g">🎉 Chính xác!</p>`+nx();star();speak(S.s)}
+else{S.f++;h=sp+`<p class="r">Chưa đúng. Các từ ở vị trí số <b>${ok.map((x,k)=>x?"":k+1).filter(Boolean).join(", ")}</b> cần sắp xếp lại. Nhớ: chữ hoa đứng đầu câu, dấu câu đứng cuối câu.</p>`+(S.f>=2?`<p>Con nghe gợi ý rồi sắp xếp lại nhé.</p>`:"");if(S.f>=2)speak(S.s,.6)}
+drO();$("fb").innerHTML=h}
+$("us").innerHTML=U.map((u,i)=>`<option value="${i}">${u.t}</option>`).join("");
+spd();tabs();go();
+</script></body></html>
